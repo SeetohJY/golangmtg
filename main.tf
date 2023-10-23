@@ -2,7 +2,7 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "4.51.0"
+      version = "5.2.0"
     }
   }
 }
@@ -40,3 +40,17 @@ resource "google_storage_bucket" "mtgjsondata" {
   }
 }
 
+
+resource "google_project_service" "firestore" {
+  project = var.project
+  service = "firestore.googleapis.com"
+}
+
+resource "google_firestore_database" "database" {
+  project     = var.project
+  name        = "(default)"
+  location_id = "nam5"
+  type        = "FIRESTORE_NATIVE"
+
+  depends_on = [google_project_service.firestore]
+}
