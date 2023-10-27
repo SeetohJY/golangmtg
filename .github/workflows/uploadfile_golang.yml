@@ -14,11 +14,16 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Setup GCP Service Account
-        uses: google-github-actions/setup-gcloud@master
+        uses: google-github-actions/auth@v1
         with:
           project_id: ${{env.PROJECT_ID}}
-          service_account_key: ${{ secrets.GCP_SA }}
-          export_default_credentials: true
+          credentials_json: '${{ secrets.GCP_SA }}'
+  
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
 
       - name: deploy cloud function
         id: deploy
