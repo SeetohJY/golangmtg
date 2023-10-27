@@ -17,11 +17,11 @@ const (
 	bucketName = "auto-expiring-mtgjsondata-bucket" // FILL IN WITH YOURS
 )
 
-func init() {
-        // functions.HTTP("DownloadmtgcsvHTTP", DownloadmtgcsvHTTP)
-}
+// func init() {
+//         // functions.HTTP("DownloadmtgcsvHTTP", DownloadmtgcsvHTTP)
+// }
 
-func main() {
+func UploadFiletoStorageBucket() {
         // os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", "jy-project-credentials.json")
 
 	r := gin.Default()
