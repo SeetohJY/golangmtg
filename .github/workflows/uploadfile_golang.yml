@@ -25,7 +25,7 @@ jobs:
       - name: 'Use gcloud CLI'
         run: 'gcloud info'
 
-      - name: deploy cloud function
+      - name: Deploy cloud function
         id: deploy
         uses: google-github-actions/deploy-cloud-functions@main
         with:
@@ -35,6 +35,6 @@ jobs:
           source_dir: "./uploadFile"
           entry_point: functions.UploadFiletoStorageBucket
 
-      - name: test the url
+      - name: Test the url
         run: curl "${{ steps.deploy.outputs.url }}"
 
