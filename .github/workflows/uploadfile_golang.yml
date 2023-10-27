@@ -33,7 +33,7 @@ jobs:
           runtime: go121
           project_id: ${{ secrets.PROJECT_ID }}
           source_dir: "./uploadFile"
-          entry_point: functions.UploadFiletoStorageBucket
+          entry_point: UploadFiletoStorageBucket
 
       - name: Test the url
         run: curl "${{ steps.deploy.outputs.url }}"
