@@ -1,6 +1,12 @@
-variable "project" { }
+variable "project" {
+  type = string
+  default = var.projectid
+}
 
-variable "credentials_file" { }
+variable "credentials_file" {
+  type = string
+  default = "gcp-credentials.json"
+}
 
 variable "region" {
   default = "us-central1"
