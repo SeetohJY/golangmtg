@@ -1,7 +1,4 @@
-variable "project" {
-  type = string
-  default = var.projectid
-}
+variable "project" {}
 
 variable "credentials_file" {
   type = string
