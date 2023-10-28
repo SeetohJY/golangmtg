@@ -5,5 +5,10 @@
 *.tfstate
 *.tfstate.*
 
+
+
 # *.tfvars
+*.tfvars
 *.tfvars.json
+
+*.credentials.json
