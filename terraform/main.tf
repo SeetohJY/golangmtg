@@ -23,7 +23,7 @@ resource "google_storage_bucket" "mtgjsondata" {
 
   lifecycle_rule {
     condition {
-      age = 2
+      age = 1
     }
     action {
       type = "Delete"
