@@ -11,6 +11,19 @@ variable "project" {
   type    = string
   default = var.projectid
 }
+variable "credentials_file" {
+  type = string
+  default = "gcp-credentials.json"
+}
+
+variable "region" {
+  default = "us-central1"
+}
+
+variable "zone" {
+  default = "us-central1-c"
+}
+
 
 provider "google" {
   credentials = file(var.credentials_file)
