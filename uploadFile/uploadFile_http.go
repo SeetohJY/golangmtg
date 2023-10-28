@@ -2,69 +2,74 @@ package uploadFile
 
 import (
 	"context"
-	"fmt"
+	"encoding/json"
 	"io"
 	"log"
 	"net/http"
-	// "os"
 
 	"cloud.google.com/go/storage"
-	"github.com/gin-gonic/gin"
+	"github.com/GoogleCloudPlatform/functions-framework-go/funcframework"
 )
 
-const (
-	projectID  = "jy-project-6cfb8"  // FILL IN WITH YOURS
-	bucketName = "auto-expiring-mtgjsondata-bucket" // FILL IN WITH YOURS
-)
-
-// func init() {
-//         // functions.HTTP("DownloadmtgcsvHTTP", DownloadmtgcsvHTTP)
-// }
-
-func UploadFiletoStorageBucket() {
-        // os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", "jy-project-credentials.json")
-
-	r := gin.Default()
-	r.POST("/upload", upload)
-
-	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+func init() {
+	funcframework.RegisterHTTPFunction("/upload", UploadFiletoStorageBucket)
+	funcframework.Start("8080")
 }
-
 
 type uploadInput struct {
-        FileName string `json:"fileName"`
-        Url string `json:"url"`
+	FileName string `json:"fileName"`
+	Url string `json:"url"`
 }
 
-func upload(c *gin.Context) {
-        var newUploadInput uploadInput
+type Response struct {
+	Message string `json:"result"`
+}
 
-        if err := c.BindJSON(&newUploadInput); err != nil {
-                c.JSON(400, gin.H{
-                        "message": "Invalid Input",
-                })
-        }
+func UploadFiletoStorageBucket(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		return
+	}
 
-        uploadFile(newUploadInput.FileName, newUploadInput.Url)
+	var req uploadInput
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		log.Printf("Error decoding request body: %v", err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
-        c.JSON(200, gin.H{
-                "message": "success",
-        })
+	// Process the request and create a response
+	result := uploadFile(req.FileName, req.Url)
+
+	res := &Response{
+		Message: result,
+	}
+
+
+	// Encode the response as JSON and write it to the response writer
+	w.Header().Set("Content-Type", "application/json")
+	if err := json.NewEncoder(w).Encode(res); err != nil {
+		log.Printf("Error encoding response: %v", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 }
 
 // UploadFile uploads an object
-func uploadFile(fileName string, url string) {
+func uploadFile(fileName string, url string) string {
 
 	// Get the data
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatalf("Failed to get data: %v", err)
+		CheckError(err)
 	}
 	defer resp.Body.Close()
 
 	// Check server response
 	if resp.StatusCode != http.StatusOK {
-                log.Fatalf("Bad status: %s", resp.Status)
+		log.Fatalf("Bad status: %s", resp.Status)
+		CheckError(err)
 	}
 
 	// Set up Google Cloud Storage client
@@ -72,11 +77,12 @@ func uploadFile(fileName string, url string) {
 	client, err := storage.NewClient(ctx)
 	if err != nil {
 		log.Fatalf("Failed to create client: %v", err)
+		CheckError(err)
 	}
 	defer client.Close()
 
 	// Create a new bucket handle
-	bucket := client.Bucket(bucketName)
+	bucket := client.Bucket("auto-expiring-mtgjsondata-bucket")
 
 	// Create a new object in the bucket
 	obj := bucket.Object(fileName)
@@ -85,14 +91,16 @@ func uploadFile(fileName string, url string) {
 	// Copy the contents of the CSV file to the object
 	if _, err := io.Copy(writer, resp.Body); err != nil {
 		log.Fatalf("Failed to upload file: %v", err)
+		CheckError(err)
 	}
 
 	// Close the object writer
 	if err := writer.Close(); err != nil {
 		log.Fatalf("Failed to close writer: %v", err)
+		CheckError(err)
 	}
-
-	fmt.Println("File uploaded successfully!")
+	
+	return "File successfully uploaded"
 }
 
 
