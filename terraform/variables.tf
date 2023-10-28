@@ -1,4 +1,6 @@
-variable "project" {}
+variable "project" {
+  default = var.env.project
+}
 
 variable "credentials_file" {
   type = string
