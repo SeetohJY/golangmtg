@@ -33,7 +33,7 @@ jobs:
 
     - name: Authenticate with Google Cloud
       run: |
-        echo "$GCP_SA" > gcp-credentials.json
+        echo $GCP_SA > gcp-credentials.json
         cat gcp-credentials.json
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
