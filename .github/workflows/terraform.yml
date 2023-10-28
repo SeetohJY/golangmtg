@@ -28,10 +28,7 @@ jobs:
       uses: hashicorp/setup-terraform@v1
 
     - name: Authenticate with Google Cloud
-      run: echo "$GCP_SA" > gcp-credentials.json
-    
-    - name: Set Terraform variable
-      run: terraform -chdir=terraform -var-file=gcp-credentials.json
+      run: echo "$GCP_SA" > ./terraform/gcp-credentials.json
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
