@@ -16,7 +16,7 @@ provider "google" {
 }
 
 resource "google_storage_bucket" "mtgjsondata" {
-  name          = "auto-expiring-mtgjsondata-bucket"
+  name          = "mtgjsondata-bucket"
   location      = "US"
   storage_class = "STANDARD"
   force_destroy = true
