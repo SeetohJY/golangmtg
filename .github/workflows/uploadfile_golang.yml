@@ -2,6 +2,8 @@ name: Deploy Cloud Function
 on:
   push:
     branches: [ main ]
+    paths:
+      - uploadFile
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
   GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA }}
