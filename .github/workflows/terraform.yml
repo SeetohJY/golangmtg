@@ -10,6 +10,7 @@ permissions:
 
 env:
   TF_VAR_project: ${{ secrets.PROJECT_ID }}
+  GCP_SA: ${{ secrets.GCP_SA }}
 
 jobs:
   terraform:
