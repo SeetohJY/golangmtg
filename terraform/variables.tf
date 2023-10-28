@@ -1,7 +1,3 @@
-# variable "project" {
-#   default = env.project
-# }
-
 variable "credentials_file" {
   type = string
   default = "gcp-credentials.json"

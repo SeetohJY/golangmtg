@@ -7,6 +7,11 @@ terraform {
   }
 }
 
+variable "project" {
+  type    = string
+  default = var.projectid
+}
+
 provider "google" {
   credentials = file(var.credentials_file)
 
