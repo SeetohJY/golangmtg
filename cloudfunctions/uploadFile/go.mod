@@ -1,4 +1,4 @@
-module github.com/SeetohJY/terraformexample/uploadFile
+module github.com/SeetohJY/golangmtg/uploadFile
 
 go 1.21.3
 

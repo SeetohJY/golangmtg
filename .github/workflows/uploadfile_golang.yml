@@ -4,6 +4,7 @@ on:
     branches: [ main ]
     paths:
       - ./cloudfunctions/uploadFile
+  workflow_dispatch:
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
   GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA }}
