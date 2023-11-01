@@ -46,12 +46,3 @@ resource "google_project_service" "firestore" {
   project = var.project
   service = "firestore.googleapis.com"
 }
-
-resource "google_firestore_database" "database" {
-  project     = var.project
-  name        = "mtgjson-database"
-  location_id = "nam5"
-  type        = "FIRESTORE_NATIVE"
-
-  depends_on = [google_project_service.firestore]
-}
