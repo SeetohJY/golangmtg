@@ -86,6 +86,7 @@ func uploadFile(fileName string, url string) string {
 	// Create a new object in the bucket
 	obj := bucket.Object(fileName)
 	writer := obj.NewWriter(ctx)
+	writer.ObjectAttrs.ContentType = "application/json"
 
 	// Copy the contents of the CSV file to the object
 	if _, err := io.Copy(writer, resp.Body); err != nil {
