@@ -16,7 +16,7 @@ provider "google" {
 }
 
 resource "google_storage_bucket" "mtgjsondata" {
-  name          = "mtgjsondata-bucket"
+  name          = "mtgjson-jy-bucket"
   location      = "US"
   storage_class = "STANDARD"
   force_destroy = true
