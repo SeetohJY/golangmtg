@@ -3,7 +3,8 @@ on:
   push:
     branches: [ main ]
     paths:
-      - uploadFile
+      - ./cloudfunctions/uploadFile
+  workflow_dispatch:
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
   GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA }}
@@ -34,7 +35,7 @@ jobs:
           name: upload-file
           runtime: go121
           project_id: ${{ secrets.PROJECT_ID }}
-          source_dir: "./uploadFile"
+          source_dir: "./cloudfunctions/uploadFile"
           entry_point: UploadFiletoStorageBucket
 
       - name: Test the url

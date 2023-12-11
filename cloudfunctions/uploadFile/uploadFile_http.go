@@ -18,7 +18,7 @@ func init() {
 
 type uploadInput struct {
 	FileName string `json:"fileName"`
-	Url string `json:"url"`
+	Url      string `json:"url"`
 }
 
 type Response struct {
@@ -44,7 +44,6 @@ func UploadFiletoStorageBucket(w http.ResponseWriter, r *http.Request) {
 	res := &Response{
 		Message: result,
 	}
-
 
 	// Encode the response as JSON and write it to the response writer
 	w.Header().Set("Content-Type", "application/json")
@@ -82,11 +81,12 @@ func uploadFile(fileName string, url string) string {
 	defer client.Close()
 
 	// Create a new bucket handle
-	bucket := client.Bucket("auto-expiring-mtgjsondata-bucket")
+	bucket := client.Bucket("mtgjson-jy-bucket")
 
 	// Create a new object in the bucket
 	obj := bucket.Object(fileName)
 	writer := obj.NewWriter(ctx)
+	writer.ObjectAttrs.ContentType = "application/json"
 
 	// Copy the contents of the CSV file to the object
 	if _, err := io.Copy(writer, resp.Body); err != nil {
@@ -99,10 +99,9 @@ func uploadFile(fileName string, url string) string {
 		log.Fatalf("Failed to close writer: %v", err)
 		CheckError(err)
 	}
-	
+
 	return "File successfully uploaded"
 }
-
 
 func CheckError(err error) {
 	if err != nil {
