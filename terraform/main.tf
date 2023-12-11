@@ -18,7 +18,7 @@ provider "google" {
 resource "google_storage_bucket" "mtgjsondata" {
   name          = "mtgjsondata-bucket"
   location      = "US"
-  storage_class = "STANDARD"
+  storage_class = "REGIONAL"
   force_destroy = true
 
   lifecycle_rule {
