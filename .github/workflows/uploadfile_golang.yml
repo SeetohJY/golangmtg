@@ -41,7 +41,7 @@ jobs:
           project_id: $PROJECT_ID
           source_dir: "./cloudfunctions/uploadFile"
           entry_point: UploadFiletoStorageBucket
-          docker_repository: "projects/$PROJECT_ID/locations/$Location/repositories/$ArtifactRepository"
+          # docker_repository: "projects/$PROJECT_ID/locations/$Location/repositories/$ArtifactRepository"
 
       - name: Test the url
         run: curl "${{ steps.deploy.outputs.url }}"
