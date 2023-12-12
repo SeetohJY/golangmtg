@@ -38,7 +38,7 @@ jobs:
         with:
           name: upload-file
           runtime: go121
-          project_id: $PROJECT_ID
+          project_id: ${{env.PROJECT_ID}}
           source_dir: "./cloudfunctions/uploadFile"
           entry_point: UploadFiletoStorageBucket
           # docker_repository: "projects/$PROJECT_ID/locations/$Location/repositories/$ArtifactRepository"
