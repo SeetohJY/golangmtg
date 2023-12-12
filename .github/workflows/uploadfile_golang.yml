@@ -9,9 +9,13 @@ env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
   GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_SA }}
 
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+        Location: us-central1
+        ArtifactRepository: my-mtg-go-repoe
     steps:
 
       - uses: actions/checkout@v2
@@ -34,9 +38,10 @@ jobs:
         with:
           name: upload-file
           runtime: go121
-          project_id: ${{ secrets.PROJECT_ID }}
+          project_id: $PROJECT_ID
           source_dir: "./cloudfunctions/uploadFile"
           entry_point: UploadFiletoStorageBucket
+          docker_repository: "projects/$PROJECT_ID/locations/$Location/repositories/$ArtifactRepository"
 
       - name: Test the url
         run: curl "${{ steps.deploy.outputs.url }}"
