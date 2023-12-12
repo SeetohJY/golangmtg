@@ -41,6 +41,13 @@ resource "google_storage_bucket" "mtgjsondata" {
 }
 
 
+resource "google_artifact_registry_repository" "my-mtg-go-repo" {
+  location      = "us-central1"
+  repository_id = "my-mtg-go-repo"
+  description   = "example go repository"
+  format        = "GO"
+}
+
 
 resource "google_project_service" "firestore" {
   project = var.project
